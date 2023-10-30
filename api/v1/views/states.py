@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Performs Restful api tasks with states."""
 from models import storage
-from models.state import state
+from models.state import State
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 

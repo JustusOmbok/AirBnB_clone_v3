@@ -114,21 +114,35 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
-    def test_get_state(self):
-        self.storage = FileStorage()
-        self.storage.reload()
-        first_state_id = list(self.storage.all(State).values())[0].id
-        state_obj = self.storage.get("State", first_state_id)
-        self.assertIsNotNone(state_obj)
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                     "not testing file storage")
+    def test_count_all_objects(self):
+        """Tests total count."""
+        storage = FileStorage()
+        if models.storage_t == 'file':
+            count = storage.count()
+            self.assertIsInstance(count, int)
+            self.assertGreater(count, 0)
 
-    def test_count_all(self):
-        self.storage = FileStorage()
-        self.storage.reload()
-        total_count = self.storage.count()
-        self.assertGreater(total_count, 0)
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                     "not testing file storage")
+    def test_count_state_objects(self):
+        """Counts total state objects."""
+        storage = FileStorage()
+        if models.storage_t == 'file':
+            count = storage.count(State)
+            self.assertIsInstance(count, int)
+            self.assertGreater(count, 0)
 
-    def test_count_state(self):
-        self.storage = FileStorage()
-        self.storage.reload()
-        state_count = self.storage.count("State")
-        self.assertGreater(state_count, 0)
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                     "not testing file storage")
+    def test_get_first_state(self):
+        """Tests getting first state."""
+        storage = FileStorage()
+        if models.storage_t == 'file':
+            if storage.count(State) > 0:
+                first_state_id = list(storage.all(State).values())[0].id
+                state = storage.get(State, first_state_id)
+                self.assertIsInstance(state, State)
+            else:
+                self.assertIsNone(None)

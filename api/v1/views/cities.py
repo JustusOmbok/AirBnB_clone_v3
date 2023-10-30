@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Gives the cities view."""
+
 from models import storage
 from models.state import State
 from models.city import City
