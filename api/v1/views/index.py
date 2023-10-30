@@ -3,6 +3,7 @@
 
 from models import storage
 from api.v1.views import app_views
+from flask import Flask, Blueprint, jsonify
 
 
 @app_views.route('/status')
@@ -22,4 +23,4 @@ def get_stats():
         "states": storage.count("State"),
         "users": storage.count("User"),
     }
-    return stats
+    return jsonify(stats)
