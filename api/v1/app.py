@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ The master application file."""
 from flask import Flask, Blueprint
+from flask import jsonify
 from os import getenv
 
 
@@ -11,6 +12,11 @@ from models import storage
 
 app.register_blueprint(app_views)
 
+
+@app.errorhandler(404)
+def not_found(error):
+    """Handles the 404 errors."""
+    return jsonify({"error": "Not found"})
 
 @app.teardown_appcontext
 def teardown(exception):
