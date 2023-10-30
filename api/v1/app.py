@@ -3,12 +3,10 @@
 from flask import Flask, Blueprint
 from flask import jsonify
 from os import getenv
-
-
-app= Flask(__name__)
 from api.v1.views import app_views
 from models import storage
 
+app = Flask(__name__)
 
 app.register_blueprint(app_views)
 
@@ -17,6 +15,7 @@ app.register_blueprint(app_views)
 def not_found(error):
     """Handles the 404 errors."""
     return jsonify({"error": "Not found"})
+
 
 @app.teardown_appcontext
 def teardown(exception):
