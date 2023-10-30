@@ -57,7 +57,7 @@ class DBStorage:
 
     def get(self, cls, id):
         """Retriesves an object based on class and id"""
-        cls = name2class.get(cls, None)
+        cls = classes.get(cls, None)
         if cls and isinstance(id, str):
             return self.__session.query(cls).filter(cls.id == id).first()
         return None
@@ -65,11 +65,11 @@ class DBStorage:
     def count(self, cls=None):
         """Counts objects in storage, and optionally filters by class."""
         if isinstance(cls, str):
-            cls = name2class.get(cls, None)
+            cls = classes.get(cls, None)
         if cls:
             return self.__session.query(cls).count()
         return sum(self.__session.query(cls).count()
-                   for cls in name2class.values())
+                   for cls in classes.values())
 
     def save(self):
         """commit all changes of the current database session"""
