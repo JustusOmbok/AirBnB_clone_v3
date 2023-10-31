@@ -13,7 +13,7 @@ def cities_by_state(state_id):
     """Performs functions on cities by state."""
     state = storage.get(State, state_id)
     if state is None:
-        abort(400)
+        abort(404)
 
     if request.method == 'GET':
         cities = [city.to_dict() for city in state.cities]
