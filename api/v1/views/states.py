@@ -6,7 +6,7 @@ from api.v1.views import app_views
 from flask import jsonify, abort, request
 
 
-@app_views.route('/states', methods=['GET', 'POST'])
+@app_views.route('/states/', methods=['GET', 'POST'], strict_slashes=False)
 def states():
     """Gives the default functins on all the states."""
     if request.method == 'GET':
@@ -18,13 +18,13 @@ def states():
             return "Not a JSON", 400
         data = request.get_json()
         if 'name' not in data:
-            return "Misding name", 400
+            return "Missing name", 400
         new_state = State(**data)
         new_state.save()
         return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['GET', 'PUT', 'DELETE'])
+@app_views.route('/states/<state_id>', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
 def state(state_id):
     """Gives the default functions on a specific state."""
     state = storage.get(State, state_id)
